@@ -6,13 +6,20 @@
 
 cd /C/code/shell
 
+# for a new repo.
 git init
 
 git add .
 
 git add <filename.py>
 
-git commit -m "update"
+git commit -m "1st commit"
+
+# for a new repo.
+git remote add origin https://github.com/Aryo-Zare/shell.git
+
+# for a new repo.
+git push -u origin main
 
 git push
 
