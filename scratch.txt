@@ -1,0 +1,8 @@
+
+cd /C/code/telemetry
+
+git add .
+
+git commit -m 'signal drop-out'
+
+git push
