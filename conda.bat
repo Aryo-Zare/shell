@@ -6,10 +6,20 @@ conda env list
 
 conda create -n env_1  python spyder numpy pandas scipy scikit-learn statsmodels openpyxl matplotlib seaborn
 
-# install a specific version of python.
-conda create -n env_2 python=3.11 spyder
 
-conda activate env_4
+#======================
+# order
+
+opencv    torch   huggingface
+conda install numpy pandas scipy scikit-learn statsmodels matplotlib seaborn openpyxl
+conda install spyder
+
+#============================
+
+# install a specific version of python.
+conda create -n env_6 python=3.12 
+
+conda activate env_2
 
 
 # you should be inside the environment of interest.
@@ -21,11 +31,10 @@ conda env export > "F:\OneDrive - Uniklinik RWTH Aachen\dl\OpenSlide.yml"
 conda deactivate
 
 # delete an environment.
-conda env remove -n env_1
+conda env remove -n env_3
 
 #############################
 
-conda create -n env_1  python spyder
 
 #######################☺
 

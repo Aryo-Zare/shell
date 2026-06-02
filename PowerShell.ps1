@@ -24,3 +24,18 @@ where.exe cmd
 
 # get info on disks.
 Get-PhysicalDisk
+
+
+#=====================
+
+powershell -ExecutionPolicy ByPass -c "irm https://hf.co/cli/install.ps1 | iex"
+
+#=====================
+
+# search for : Triton :
+cd C:\code
+cd sam3
+
+Get-ChildItem -Recurse -Include *.py | Select-String "triton"
+
+#=====================
