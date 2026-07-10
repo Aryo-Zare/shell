@@ -25,7 +25,7 @@ git add .
 
 git add <filename.py>
 
-git commit -m "err__ finding"
+git commit -m "update"
 
 # for a new repo.
 git remote add origin https://github.com/Aryo-Zare/emka.git
