@@ -25,7 +25,7 @@ git add .
 
 git add <filename.py>
 
-git commit -m "update"
+git commit -m "train-valid-test , coco-json"
 
 # for a new repo.
 git remote add origin https://github.com/Aryo-Zare/emka.git
@@ -130,6 +130,10 @@ User@UK-2025720264 MINGW64 /C/code/emka (main)
 $ git remote -v
 origin  https://github.com/Aryo-Zare/emka.git (fetch)
 origin  https://github.com/Aryo-Zare/emka.git (push)
+
+
+###################################################
+# Sompote
 
 
 ###################################################

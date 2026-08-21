@@ -162,3 +162,54 @@ rm -ri SAM-3.1
 watch -n 5 'du -sh SAM_31'
 
 #=========================================
+# installing LoRA repo.
+
+cd /C/code
+
+git clone https://github.com/Sompote/SAM3_LoRA.git
+
+conda activate env_6
+
+# AI_dl__.docx  : cell-440
+pip install peft pycocotools pyyaml tensorboard
+
+pip install -e .
+
+# error ipmporting pytorch after installing sompote ( pip install -e . )
+    # AI_dl__.docx  :  cell-441 : cell-450
+    # in summary, the root cause was numpy version upgrade.
+        # downgrade the numpy versinos.
+            # to do this, you may need to manually delete numpy folders from C:/.../...anaconda-packages / ... .
+
+#==========================================================================
+#==========================================================================
+# running the LoRA :
+    # conda terminal :
+# you do not need to close SPYDER : restart its kernel, to remove all variables & processes.
+
+# launch in anaconda-pwoershell ( not anaconda-cmd ).
+
+conda activate env_6
+cd C:\CODE\SAM3_LORA
+
+# $env:PYTHONIOENCODING="utf-8"
+# $env:PYTHONUTF8="1"
+
+python train_sam3_lora_native.py --config configs/META__Tuned-Full-Lora-Config.yaml
+
+python train_sam3_lora_native.py --config configs/META__Tuned-Full-Lora-Config.yaml 2>&1 | Tee-Object -FilePath F:\temp\LoRA_output\train.log -Encoding utf8
+
+# CTRL + C : to quit.
+
+#=====================
+# tensor-board
+(base) C:\Users\User>conda activate env_6
+(env_6) C:\Users\User>tensorboard --logdir F:\temp\LoRA_output\logs
+    # TensorFlow installation not found - running with reduced feature set.
+    # Serving TensorBoard on localhost; to expose to the network, use a proxy or pass --bind_all
+    # TensorBoard 2.21.0 at http://localhost:6006/ (Press CTRL+C to quit)
+
+# Chrome  =>  http://localhost:6006/
+    # refresh frequently ( after new trained epochs ).
+
+#========================
