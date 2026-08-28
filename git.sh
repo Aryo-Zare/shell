@@ -6,7 +6,10 @@
 
 cd /C/code/composition
 cd /C/code/cq
+
 cd /C/code/DL
+cd /C/code/SAM3_LoRA
+
 cd /C/code/emka
 cd /C/code/General
 cd /C/code/kidney
@@ -25,7 +28,7 @@ git add .
 
 git add <filename.py>
 
-git commit -m "train-valid-test , coco-json"
+git commit -m "compare : original SAM-3 versus LoRA"
 
 # for a new repo.
 git remote add origin https://github.com/Aryo-Zare/emka.git
@@ -132,8 +135,4 @@ origin  https://github.com/Aryo-Zare/emka.git (fetch)
 origin  https://github.com/Aryo-Zare/emka.git (push)
 
 
-###################################################
-# Sompote
 
-
-###################################################

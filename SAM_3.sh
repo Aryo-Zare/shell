@@ -192,12 +192,7 @@ pip install -e .
 conda activate env_6
 cd C:\CODE\SAM3_LORA
 
-# $env:PYTHONIOENCODING="utf-8"
-# $env:PYTHONUTF8="1"
-
 python train_sam3_lora_native.py --config configs/META__Tuned-Full-Lora-Config.yaml
-
-python train_sam3_lora_native.py --config configs/META__Tuned-Full-Lora-Config.yaml 2>&1 | Tee-Object -FilePath F:\temp\LoRA_output\train.log -Encoding utf8
 
 # CTRL + C : to quit.
 
@@ -213,3 +208,126 @@ python train_sam3_lora_native.py --config configs/META__Tuned-Full-Lora-Config.y
     # refresh frequently ( after new trained epochs ).
 
 #========================
+# modifications of sompote-LoRA
+
+# created : medical_losses.py  ( C:\code\SAM3_LoRA\sam3\train\loss\medical_losses.py )
+# => linked (used) the above file in :  loss_fns.py ( modified )( C:\code\SAM3_LoRA\sam3\train\loss\loss_fns.py )
+# modified : C:\code\SAM3_LoRA\train_sam3_lora_native.py
+
+###################################################
+# Sompote : pushing the already cloned repo, for the 1st time.
+
+cd /C/code/SAM3_LoRA
+git remote remove origin  # removes the original cloning URL ( sompote's original repo ).
+git remote add origin https://github.com/Aryo-Zare/SAM3-Medical-LoRA.git
+
+
+git add .
+
+# multi-line commmit.
+git commit -F- <<EOF
+1. Added custom loss-functions to detect tortuous & long tubules.
+2. Added a clean UTF-8 logger, and TensorBoard tracking.
+3. Edited the YAML config.
+EOF
+
+#------------
+# [main f131db4] 1. Added custom loss-functions to detect tortuous & long tubules. 2. Added a clean UTF-8 logger, and TensorBoard tracking. 3. Edited the YAML config.
+#  6 files changed, 466 insertions(+), 37 deletions(-)
+#  create mode 100644 configs/META__Tuned-Full-Lora-Config.yaml
+#  create mode 100644 configs/tuned_full_lora_config.yaml
+#  create mode 100644 sam3/train/loss/medical_losses.py
+#  create mode 100644 sam3/train/loss/test_loss.py
+
+git push -u origin main
+
+###################################################
+# model_evaluation
+    #  evaluation-metrics
+
+conda activate env_6
+
+cd C:\code\SAM3_LoRA
+
+# •	Anaconda Prompt , CMD, continuation char is ^ not \
+# •	PowerShell = continuation char is `
+
+python validate_sam3_lora.py ^
+    --config configs/META__Tuned-Full-Lora-Config.yaml ^
+    --weights "F:\temp\LoRA_output\2026-08-20\best_lora_weights.pt" ^
+    --val_data_dir "F:\OneDrive - Uniklinik RWTH Aachen\dl\segmentation\SAM_3\LoRA\data\coco_dataset\test"
+
+#========================
+# save the evironment details.
+
+conda activate env_6
+cd C:\code\SAM3_LoRA\environment
+
+# Why --no-builds? By default, Conda saves the exact OS-level hash of every package. 
+# If you try to load that file on a different computer later, Conda might crash saying, "I can't find this exact hash." 
+# Using --no-builds strips away those strict hashes, saving only the package names and versions (e.g., pytorch=2.1.0), 
+# making it perfectly portable to any other Windows machine.
+conda env export --no-builds > environment.yml
+    # Your environment contains 53 packages installed via pip. Conda cannot reliably lock these packages for reproducible environments.
+
+    # Detected packages:
+    #   - absl-py==2.5.0
+    #   - accelerate==1.14.0
+    #   - annotated-types==0.8.0
+    #   - antlr4-python3-runtime==4.9.3
+    #   - decord==0.6.0
+    #   - distro==1.9.0
+    #   - einops==0.8.2
+    #   - ftfy==6.1.1
+    #   - grpcio==1.83.0
+    #   - hf-transfer==0.1.9
+    #   - hf-xet==1.6.0
+    #   - httpcore2==2.12.0
+    #   - httpx2==2.12.0
+    #   - hydra-core==1.3.5
+    #   - idna==3.19
+    #   - imageio==2.37.4
+    #   - iopath==0.1.10
+    #   - jiter==0.16.0
+    #   - lazy-loader==0.5
+    #   - lightning-utilities==0.15.3
+    #   - markdown==3.10.3
+    #   - markupsafe==3.0.3
+    #   - mpmath==1.3.0
+    #   - networkx==3.6.1
+    #   - ninja==1.13.0
+    #   - numpy==1.26.4
+    #   - omegaconf==2.3.1
+    #   - open-clip-torch==3.3.0
+    #   - openai==3.3.0
+    #   - opencv-python==4.9.0.80
+    #   - peft==0.20.0
+    #   - portalocker==3.2.0
+    #   - protobuf==7.35.1
+    #   - pydantic==2.13.4
+    #   - pydantic-core==2.46.4
+    #   - sam3==0.1.0
+    #   - sam3-lora==0.3.0
+    #   - scikit-image==0.26.0
+    #   - setuptools==70.2.0
+    #   - submitit==1.5.4
+    #   - sympy==1.14.0
+    #   - tensorboard==2.21.0
+    #   - tensorboard-data-server==0.7.2
+    #   - tifffile==2024.2.12
+    #   - timm==1.0.27
+    #   - torch==2.12.0+cu132
+    #   - torchmetrics==1.9.0
+    #   - torchvision==0.27.0+cu132
+    #   - triton-windows==3.7.0.post26
+    #   - truststore==0.10.4
+    #   - typing-inspection==0.4.4
+    #   - wcwidth==0.7.0
+    #   - werkzeug==3.1.8
+
+    # Learn more: https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/pip-interoperability.html
+    #   warnings.warn(warning, CondaExportWarning)
+
+pip freeze > requirements.txt
+
+#==================
