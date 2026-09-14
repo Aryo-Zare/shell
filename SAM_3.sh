@@ -187,8 +187,6 @@ pip install -e .
     # conda terminal :
 # you do not need to close SPYDER : restart its kernel, to remove all variables & processes.
 
-# launch in anaconda-pwoershell ( not anaconda-cmd ).
-
 conda activate env_6
 cd C:\CODE\SAM3_LORA
 
@@ -330,4 +328,54 @@ conda env export --no-builds > environment.yml
 
 pip freeze > requirements.txt
 
-#==================
+#===============================================================
+# nnu
+# gemini cell-650
+
+conda create -n env_9 python spyder -y
+conda activate env_9
+pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu132
+
+pip install nnunetv2
+
+
+# Configure the 3 Mandatory Environment Variables
+# nnU-Net v2 requires three environment paths to operate:
+    # 1.	nnUNet_raw: Where your Dataset001_Tubules folder sits.
+    # 2.	nnUNet_preprocessed: Where it unpacks resampled .npy image slices and crops.
+    # 3.	nnUNet_results: Where it saves the trained model weights and logs.
+
+# Important Note on OneDrive: 
+    # Writing tens of thousands of temporary cache files to an active OneDrive sync directory can cause file-locking crashes. 
+    # Keep preprocessed and results in a local temporary folder (e.g., F:\temp\nnU).
+
+# 1st, manually create these folders in Windows file explorer :
+    # F:\temp\nnU\nnUNet_preprocessed
+    # F:\temp\nnU\nnUNet_results
+# Bind these permanently to your nnunet conda environment so they automatically load every time you activate it:
+conda env config vars set nnUNet_raw="F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\data"
+conda env config vars set nnUNet_preprocessed="F:\temp\nnU\nnUNet_preprocessed"  
+conda env config vars set nnUNet_results="F:\temp\nnU\nnUNet_results"  
+
+# Now, deactivate and reactivate the environment once so the variables take effect:
+conda deactivate
+conda activate env_9
+
+
+# What this command does:
+    # •	Verifies channel dimensions (_0000, _0001, _0002) and masks (0 vs 1).
+    # •	Analyzes pixel spacing, image dimensions, and intensity distributions.
+    # •	Automatically creates F:\temp\nnU\nnUNet_preprocessed\Dataset001_Tubules.
+nnUNetv2_plan_and_preprocess -d 001 --verify_dataset_integrity
+# the output is saved in : F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\ verify_data__.txt
+
+
+# Inject the Custom Split (Identical to LoRA)
+# nnU-Net automatically creates a default random split during preprocessing. Replace it with your custom file to ensure the validation set matches your LoRA validation set:
+    # 1.	Open your generated folder: F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\data\Dataset001_Tubules
+    # 2.	Locate custom_splits_final.json.
+    # 3.	Copy it into: F:\temp\nnU\nnUNet_preprocessed\Dataset001_Tubules
+    # 4.	Rename that copied file to: splits_final.json (overwrite the existing file if prompted).
+
+
+#============================================================

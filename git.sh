@@ -28,7 +28,7 @@ git add .
 
 git add <filename.py>
 
-git commit -m "compare : original SAM-3 versus LoRA"
+git commit -m "update"
 
 # for a new repo.
 git remote add origin https://github.com/Aryo-Zare/emka.git
