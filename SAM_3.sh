@@ -354,8 +354,9 @@ pip install nnunetv2
     # F:\temp\nnU\nnUNet_results
 # Bind these permanently to your nnunet conda environment so they automatically load every time you activate it:
 conda env config vars set nnUNet_raw="F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\data"
-conda env config vars set nnUNet_preprocessed="F:\temp\nnU\nnUNet_preprocessed"  
-conda env config vars set nnUNet_results="F:\temp\nnU\nnUNet_results"  
+    # this contains : / Dataset001_Tubules : previously generated in SPYDER.
+conda env config vars set nnUNet_preprocessed="F:\temp\nnU\nnUNet_preprocessed"   # used in training.
+conda env config vars set nnUNet_results="F:\temp\nnU\nnUNet_results"    # used in training.
 
 # Now, deactivate and reactivate the environment once so the variables take effect:
 conda deactivate
@@ -377,5 +378,29 @@ nnUNetv2_plan_and_preprocess -d 001 --verify_dataset_integrity
     # 3.	Copy it into: F:\temp\nnU\nnUNet_preprocessed\Dataset001_Tubules
     # 4.	Rename that copied file to: splits_final.json (overwrite the existing file if prompted).
 
+conda activate env_9
+
+# training
+# if interrupted, run the same commad : it will resume from where it was interrupted.
+nnUNetv2_train 001 2d 0 --c
+
+
+# inference
+#________________________
+#pig
+nnUNetv2_predict -i ^
+    "F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\test\input" -o ^
+    "F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\test\output" ^
+    -d 001 -c 2d -f 0
+# nnU-Net outputs binary masks where the background is pixel value 0 and the tubules are pixel value 1. 
+    # Because standard Windows image viewers map pixel values from 0 to 255, 
+    # a pixel value of 1 renders as almost pitch black (1/255th brightness).
+
+# kpmp
+nnUNetv2_predict -i ^
+    "F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\test\input\kpmp" -o ^
+    "F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\test\output\kpmp" ^
+    -d 001 -c 2d -f 0
+#________________________
 
 #============================================================

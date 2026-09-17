@@ -28,7 +28,7 @@ git add .
 
 git add <filename.py>
 
-git commit -m "update"
+git commit -m "inference__nnu"
 
 # for a new repo.
 git remote add origin https://github.com/Aryo-Zare/emka.git
