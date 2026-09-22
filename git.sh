@@ -28,7 +28,7 @@ git add .
 
 git add <filename.py>
 
-git commit -m "inference__nnu"
+git commit -m "test reconstruct masks from .npy files.  __  merge fragmented annotations."
 
 # for a new repo.
 git remote add origin https://github.com/Aryo-Zare/emka.git

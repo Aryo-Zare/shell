@@ -385,6 +385,13 @@ conda activate env_9
 nnUNetv2_train 001 2d 0 --c
 
 
+#________________________
+# => SPYDER : C:\code\DL\nnu.py  |  pre-process for inference.
+    # output of this step is input of the next step :
+        # RGB-split gray-scale images.
+
+
+
 # inference
 #________________________
 #pig
@@ -395,12 +402,38 @@ nnUNetv2_predict -i ^
 # nnU-Net outputs binary masks where the background is pixel value 0 and the tubules are pixel value 1. 
     # Because standard Windows image viewers map pixel values from 0 to 255, 
     # a pixel value of 1 renders as almost pitch black (1/255th brightness).
+# note, during training, do not open the progress figure directly in Windows photo viewer :
+    # F:\temp\nnU\nnUNet_results\Dataset001_Tubules\nnUNetTrainer__nnUNetPlans__2d\fold_0 \ progress.png .
+    # Windows would lock the file & block overwriting it.
+    # this would result in the training to stop.
 
 # kpmp
 nnUNetv2_predict -i ^
     "F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\test\input\kpmp" -o ^
     "F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\test\output\kpmp" ^
     -d 001 -c 2d -f 0
+
+
+# bench-marking : time-test.
+# enter PowerShell, not cmd.
+# benchmarking for LoRA  =>  C:\code\DL\separate_inference__.py  |  benchmark__LoRA
+# activate env_9
+Measure-Command { nnUNetv2_predict -i "F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\test\input\kpmp" -o "F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\test\output\time_test" -d 001 -c 2d -f 0 }
+# terminal log saved in : 
+    # F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\test\output\time_test  \  time-test_log_.txt
+
+
+# this ( returned line ) didn't work
+    # perhaps because line break in powershell is different.
+Measure-Command { nnUNetv2_predict -i ^
+    "F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\test\input\kpmp" -o ^
+    "F:\OneDrive - Uniklinik RWTH Aachen\dl\dr__dl\nnU\test\output\time_test" -d 001 -c 2d -f 0 }
+
+
 #________________________
+
+
+
+
 
 #============================================================
