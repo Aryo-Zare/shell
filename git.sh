@@ -21,22 +21,24 @@ cd /C/code/VISION
 
 ###################################################
 
-# for a new repo.
-git init
-
 git add .
-
 git add <filename.py>
 
-git commit -m "test reconstruct masks from .npy files.  __  merge fragmented annotations."
-
-# for a new repo.
-git remote add origin https://github.com/Aryo-Zare/emka.git
-
-# for a new repo.
-git push -u origin main
+git commit -m "zenodo"
 
 git push
+
+#############################
+
+# for a new repo.
+cd "C:\code\RT_SAM3-LoRA_vs_nnU-Net__v2"
+git init
+git add .
+git commit -m "Initial release: Reproducible pipeline for SAM-3 LoRA vs nnU-Net for renal tubule segmentation"
+# git branch -M main
+git remote add origin https://github.com/Aryo-Zare/RT_SAM3-LoRA_vs_nnU-Net__v2.git
+git push -u origin main
+
 
 ###################################################
 
